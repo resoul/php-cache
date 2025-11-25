@@ -9,21 +9,18 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-// Config содержит настройки лимитов
 type Config struct {
 	RequestsPerMinute int
 	TokensPerMinute   int
 	RequestsPerDay    int
 }
 
-// RateLimiter управляет лимитами запросов
 type RateLimiter struct {
 	redis  *redis.Client
 	config Config
 	prefix string
 }
 
-// CheckResult содержит результат проверки лимитов
 type CheckResult struct {
 	Allowed         bool
 	CurrentRequests int
@@ -34,7 +31,6 @@ type CheckResult struct {
 	RejectionReason string
 }
 
-// New создает новый rate limiter
 func New(redisClient *redis.Client, config Config) *RateLimiter {
 	return &RateLimiter{
 		redis:  redisClient,
@@ -43,7 +39,6 @@ func New(redisClient *redis.Client, config Config) *RateLimiter {
 	}
 }
 
-// CheckAndIncrement проверяет лимиты и увеличивает счетчики если разрешено
 func (rl *RateLimiter) CheckAndIncrement(ctx context.Context, tokens int32) (*CheckResult, error) {
 	now := time.Now()
 
@@ -123,7 +118,6 @@ func (rl *RateLimiter) CheckAndIncrement(ctx context.Context, tokens int32) (*Ch
 	return result, nil
 }
 
-// GetCurrentUsage возвращает текущее использование без изменения счетчиков
 func (rl *RateLimiter) GetCurrentUsage(ctx context.Context) (*CheckResult, error) {
 	now := time.Now()
 
@@ -152,7 +146,6 @@ func (rl *RateLimiter) GetCurrentUsage(ctx context.Context) (*CheckResult, error
 	return result, nil
 }
 
-// Reset сбрасывает все счетчики
 func (rl *RateLimiter) Reset(ctx context.Context) error {
 	now := time.Now()
 
