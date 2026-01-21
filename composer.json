@@ -1,0 +1,21 @@
+{
+  "name": "resoul/php-cache",
+  "version": "1.0.0",
+  "description": "Simple Caching system",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "resoul",
+      "email": "resoul.ua@icloud.com"
+    }
+  ],
+  "require": {
+    "php": "^7.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Resoul\\Cache\\": "src/"
+    }
+  }
+}
